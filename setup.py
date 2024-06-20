@@ -14,7 +14,7 @@ setup(
     'install_requires=[
         'dbus-python',
         'pygobject',
-        'logger',
+        'logging',
     ],
     classifeiers=[
         'Developement Status :: 3 - Alpha',
