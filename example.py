@@ -34,7 +34,7 @@ def main():
     write_characteristic = service.add_characteristic("12345678-1234-5678-1234-56789abcdef2", ["write"], b"")
 
     def write_value(value, options):
-        data = bytes(value).decode("utf-i")
+        data = bytes(value).decode("utf-8")
         print(f"Recieved from BLE: {data}")
 
     write_characteristic.WriteValue = write_value
