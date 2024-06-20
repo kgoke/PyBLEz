@@ -1,6 +1,5 @@
 
 import dbus
-
 import logging
 import sys
 
@@ -409,4 +408,4 @@ class Agent(dbus.service.Object):
 
     @dbus.service.method(AGENT_INTERFACE, in_signature="", out_signature="")
     def Cancel(self):
-        logger.info("Cancel")
+        logger.info("Cancel") 
