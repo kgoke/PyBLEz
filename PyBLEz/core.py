@@ -6,6 +6,7 @@ import logging
 from .service import Service
 from .advertisement import Advertisement
 from .agent import Agent
+from .application import Application
 
 logger = logging.getLogger(__name__)
 
@@ -58,3 +59,22 @@ class BLEPeripheral:
         adapter_props = dbus.Interface(self.bus.get_object("org.bluez", self.adapter), "org.freedesktop.DBus.Properties")
         adapter_props.Set("org.bluez.Adapter1", "Powered", dbus.Boolean(1))
         logger.info("Adapter powered on")
+
+    def register_application(self):
+        app = Application(self.bus)
+        for service in self.services:
+            app.add_service(service)
+        service_manager = dbus.Interface(self.bus.get_object("org.bluez", self.adapter), "org.bluez.GattManager1")
+        service_manager.RegisterApplication(
+            app.get_path(),
+            {},
+            reply_handler=self.application_registered,
+            error_handler=self.application_error
+        )
+
+    def application_registered(self):
+        logger.info("GATT application registered")
+
+    def application_error(self, error):
+        logger.error(f"Failed to register applicaiton: {error}")
+        self.mainloop.quit()
