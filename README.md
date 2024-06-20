@@ -94,6 +94,10 @@ if __name__ == "__main__":
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue if you have any suggestions or improvements.
 
+## License
+
+This project is licensed under the MIT License.
+
 ## Contact
 
 For any questions or inquiries, please contact `kg333920@ohio.edu`.
