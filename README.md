@@ -2,12 +2,6 @@
 
 PyBLEz is a Python library for creating BLE peripherals using BlueZ and D-Bus. This library allows you to easily set up BLE services and characteristics, handle read and write operations, and send notifications to connected devices.
 
-## Installation
-
-```Bash
-pip install PyBLEz
-```
-
 ## Usage
 
 ### Creating a Simple BLE Peripheral
@@ -92,6 +86,12 @@ if __name__ == "__main__":
 - D-Bus (python-dbus)
 - GLib
 - Logging
+
+## Installation
+
+```Bash
+pip install PyBLEz
+```
 
 ## Conrtibuting
 
