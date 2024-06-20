@@ -8,7 +8,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/kgoke/PyBLEz',
     aurhtor='Keegan Goecke',
-    author_email='kg333920@ohio.edu',
+    author_email='goecke.dev@gmail.com',
     license='MIT',
     packages=find_packages(),
     'install_requires=[

@@ -101,4 +101,4 @@ This project is licensed under the MIT License.
 
 ## Contact
 
-For any questions or inquiries, please contact `kg333920@ohio.edu`.
+For any questions or inquiries, please contact `goecke.dev@gmail.com`.
