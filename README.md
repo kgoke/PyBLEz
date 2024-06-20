@@ -88,7 +88,8 @@ if __name__ == "__main__":
 - Python 3.6 or later
 - BlueZ (5.41 or later)
 - D-Bus (python-dbus)
-- GLin
+- GLib
+- Logging
 
 ## Conrtibuting
 
