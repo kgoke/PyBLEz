@@ -44,7 +44,7 @@ Thank you for considering contributing to PyBLE! We welcome contributions in var
 
 ## Code of Conduct
 
-We follow the [Contributor Covenant Code of Conduct](https://www.contributor-covenant.org/version/2/0/code_of_conduct/). Please read it to understand the standards of behavior we expect from contributors.
+We follow the [Contributor Covenant Code of Conduct](https://github.com/kgoke/PyBLEz/blob/main/CODE_OF_CONDUCT.md). Please read it to understand the standards of behavior we expect from contributors.
 
 ## Reporting Issues
 
