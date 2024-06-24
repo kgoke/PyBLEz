@@ -9,6 +9,7 @@ class Characteristic(dbus.service.Object):
         self.service = service
         self.value = value
         self.notifying = False
+        self.custom_write = None
         dbus.service.Object.__init__(self, bus, self.path)
 
     def get_properties(self):
@@ -34,16 +35,10 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method("org.bluez.GattCharacteristic1", in_signature="aya{sv}")
     def WriteValue(self, value, options):
-        self.value = value
-        data = bytes(value).decode("utf-8")
-        print(f"Received from BLE: {data}")
-
-    # not being used
-    def process_value(self, value):
-        # placeholder/example processing
-        data = bytes(value).decode("utf-8")
-        processed_data = data.uppder()
-        return bytearray(processed_data, "utf-8")
+        if self.custom_write:
+            self.custom_write(value, options)
+        else:
+            self.value = value
 
     @dbus.service.method("org.bluez.GattCharacteristic1")
     def StartNotify(self):
