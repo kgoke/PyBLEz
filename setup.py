@@ -13,8 +13,8 @@ setup(
     packages=find_packages(),
     install_requires=[
         'dbus-python',
+        'pycairo',
         'pygobject',
-        'logging',
     ],
     classifeiers=[
         'Developement Status :: 3 - Alpha',
