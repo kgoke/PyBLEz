@@ -8,7 +8,7 @@ PyBLEz is a Python library for creating BLE peripherals using BlueZ and D-Bus. T
 
 ```Python
 #!/user/bin/env python3
-from PyBLEz import create_ble_peripheral, enable_logs
+from PyBLEz import create_ble_peripheral, enable_logs, disable_logs
 
 # Enable debug logs
 enable_logs()
@@ -28,7 +28,7 @@ def main():
     def read_value(options):
         return char.value
     
-    char.ReadValue = read_value
+    char.Read = read_value
 
     # Define the write_value function
     def write_value(value, options):
@@ -38,7 +38,7 @@ def main():
         char.value = bytearray(processed, "utf-8")
         print(f"Processed: {processed}")
 
-    char.custom_write = write_value
+    char.Write = write_value
 
     # Register the GATT application
     ble.register_application()
@@ -58,13 +58,13 @@ if __name__ == "__main__":
 
 #### Read Characteristic:
 
-- `read_characteristic` is created with the UUID `12345678-1234-5678-1234-56789abcdef1` and is set to return the value "hello".
-- The `read_value` function is assigned to the characteristic's `ReadValue` method.
+- Readable `characteristic` is created with the UUID `12345678-1234-5678-1234-56789abcdef1` and is set to return the value "Hello".
+- The `read_value` function is assigned to the characteristic's `Read` method.
 
 #### Write Characteristic:
 
-- `write_characteristic` is created with the UUID `12345678-1234-5678-1234-56789abcdef1` and allows writing data.
-- The `write_value` function is assigned to the characteristic's `WriteValue method` using the `custom_write` wrapper, which prints the received data to the screen.
+- Writable is created with the UUID `12345678-1234-5678-1234-56789abcdef1` and allows writing data.
+- The `write_value` function is assigned to the characteristic's `Write` method.
 
 #### Advertising:
 

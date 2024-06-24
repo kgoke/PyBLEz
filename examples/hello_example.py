@@ -1,5 +1,4 @@
 #!/user/bin/env python3
-import logging
 from PyBLEz import create_ble_peripheral, enable_logs, disable_logs
 
 # Enable debug logs
@@ -20,7 +19,7 @@ def main():
     def read_value(options):
         return char.value
     
-    char.ReadValue = read_value
+    char.Read = read_value
 
     # Define the write_value function
     def write_value(value, options):
@@ -30,7 +29,7 @@ def main():
         char.value = bytearray(processed, "utf-8")
         print(f"Processed: {processed}")
 
-    char.custom_write = write_value
+    char.Write = write_value
 
     # Register the GATT application
     ble.register_application()
