@@ -1,4 +1,6 @@
 import dbus.service
+import dbus
+from .logger import logger
 
 class Characteristic(dbus.service.Object):
     def __init__(self, bus, index, uuid, flags, service, value):
@@ -11,6 +13,7 @@ class Characteristic(dbus.service.Object):
         self.notifying = False
         self.custom_write = None
         dbus.service.Object.__init__(self, bus, self.path)
+        logger.debug(f"Characteristic created with UUID {uuid}")
 
     def get_properties(self):
         return {
@@ -24,20 +27,25 @@ class Characteristic(dbus.service.Object):
 
     @dbus.service.method("org.freedesktop.DBus.Properties", in_signature="s", out_signature="a{sv}")
     def GetAll(self, interface):
+        logger.debug(f"GetAll called for characteristic with UUID {self.uuid}")
         return self.get_properties()[interface]
 
     def get_path(self):
+        logger.debug(f"Characteristic path requested: {self.path}")
         return dbus.ObjectPath(self.path)
 
     @dbus.service.method("org.bluez.GattCharacteristic1", in_signature="a{sv}", out_signature="ay")
     def ReadValue(self, options):
+        logger.debug(f"Read request received for characteristic with UUID {self.uuid}, reading value {self.value}")
         return self.value
 
     @dbus.service.method("org.bluez.GattCharacteristic1", in_signature="aya{sv}")
     def WriteValue(self, value, options):
         if self.custom_write:
+            logger.debug(f"Custom write function called for characteristic with UUID {self.uuid} with value {value}")
             self.custom_write(value, options)
         else:
+            logger.debug(f"Write request received for characteristic with UUID {self.uuid} with value {value}")  
             self.value = value
 
     @dbus.service.method("org.bluez.GattCharacteristic1")

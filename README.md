@@ -7,52 +7,47 @@ PyBLEz is a Python library for creating BLE peripherals using BlueZ and D-Bus. T
 ### Creating a Simple BLE Peripheral
 
 ```Python
-#!/usr/bin/env python3
+#!/user/bin/env python3
+from PyBLEz import create_ble_peripheral, enable_logs
 
-import logging
-from PyBLE import create_ble_peripheral
-
-# Set up logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logHandler = logging.StreamHandler()
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logHandler.setFormatter(formatter)
-logger.addHandler(logHandler)
+# Enable debug logs
+enable_logs()
 
 def main():
-    # Create the BLE peripheral instance
-    ble_peripheral = create_ble_peripheral()
-    ble_peripheral.power_on_adapter()
+    # create a BLE peripheral instance
+    ble = create_ble_peripheral()
+    ble.power_on_adapter()
 
     # Add a service
-    service = ble_peripheral.add_service("12345678-1234-5678-1234-56789abcdef0")
+    service = ble.add_service("12345678-1234-5678-1234-56789abcdef0")
 
-    # Add a read characteristic
-    read_characteristic = service.add_characteristic("12345678-1234-5678-1234-56789abcdef1", ["read"], bytearray("hello", "utf-8"))
+    # Add a characteristic to the service
+    char = service.add_characteristic("12345678-1234-5678-1234-56789abcdef1", ["read", "write"], bytearray("Hello", "utf-8"))
 
+    # Defind the read_value function
     def read_value(options):
-        return read_characteristic.value
+        return char.value
+    
+    char.ReadValue = read_value
 
-    read_characteristic.ReadValue = read_value
-
-    # Add a write characteristic
-    write_characteristic = service.add_characteristic("12345678-1234-5678-1234-56789abcdef2", ["write"], b"")
-
+    # Define the write_value function
     def write_value(value, options):
         data = bytes(value).decode("utf-8")
-        print(f"Received from BLE: {data}")
+        print(f"Received: {data}")
+        processed = data.upper()
+        char.value = bytearray(processed, "utf-8")
+        print(f"Processed: {processed}")
 
-    write_characteristic.WriteValue = write_value
+    char.custom_write = write_value
 
-    # Register GATT application
-    ble_peripheral.register_application()
+    # Register the GATT application
+    ble.register_application()
 
     # Start advertising
-    ble_peripheral.start_advertising("SimpleBLE", [service.uuid])
+    ble.start_advertising("HelloBLE", [service.uuid])
 
     # Run the main loop
-    ble_peripheral.run()
+    ble.run()
 
 if __name__ == "__main__":
     main()
@@ -84,8 +79,8 @@ if __name__ == "__main__":
 - Python 3.6 or later
 - BlueZ (5.41 or later)
 - D-Bus (python-dbus)
+- Pycairo
 - GLib
-- Logging
 
 ## Installation
 
