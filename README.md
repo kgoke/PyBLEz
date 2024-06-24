@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
 #### Advertising:
 
-- The peripheral advertises with the local name "SimpleBLE" and includes the service UUID.
+- The peripheral advertises with the local name "HelloBLE" and includes the service UUID.
 
 #### Running the Peripheral:
 
