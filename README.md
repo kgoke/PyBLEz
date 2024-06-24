@@ -63,8 +63,8 @@ if __name__ == "__main__":
 
 #### Write Characteristic:
 
-- `write_characteristic` is created with the UUID `12345678-1234-5678-1234-56789abcdef2` and allows writing data.
-- The `write_value` function is assigned to the characteristic's `WriteValue method`, which prints the received data to the screen.
+- `write_characteristic` is created with the UUID `12345678-1234-5678-1234-56789abcdef1` and allows writing data.
+- The `write_value` function is assigned to the characteristic's `WriteValue method` using the `custom_write` wrapper, which prints the received data to the screen.
 
 #### Advertising:
 
