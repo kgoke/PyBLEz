@@ -1,14 +1,12 @@
 import dbus
 import dbus.mainloop.glib
 from gi.repository import GLib
-import logging
 
 from .service import Service
 from .advertisement import Advertisement
 from .agent import Agent
 from .application import Application
-
-logger = logging.getLogger(__name__)
+from .logger import logger, enable_logs, disable_logs
 
 class BLEPeripheral:
     def __init__(self):
@@ -21,18 +19,22 @@ class BLEPeripheral:
             raise Exception("Bluetooth adapter not found")
         self.services = []
         self.mainloop = GLib.MainLoop()
+        logger.debug("BLEPeripheral instance created")
 
     def find_adapter(self):
         remote_om = dbus.Interface(self.bus.get_object("org.bluez", "/"), "org.freedesktop.DBus.ObjectManager")
         objects = remote_om.GetManagedObjects()
         for path, interfaces in objects.items():
             if "org.bluez.GattManager1" in interfaces:
+                logger.debug(f"Found adapter at {path}")
                 return path
+        logger.error("Adapter not found")
         return None
 
     def add_service(self, uuid, primary=True):
         service = Service(self.bus, len(self.services), uuid, primary)
         self.services.append(service)
+        logger.debug(f"Added service with UUID {uuid}")
         return service
 
     def start_advertising(self, local_name, service_uuids):
@@ -44,9 +46,10 @@ class BLEPeripheral:
             reply_handler=self.advertisement_registered,
             error_handler=self.advertisement_error
         )
+        logger.debug(f"Started advertising as {local_name} with services {service_uuids}")
 
     def advertisement_registered(self):
-        logger.info("Advertisement registered")
+        logger.debug("Advertisement registered")
 
     def advertisement_error(self, error):
         logger.error(f"Failed to register advertisement: {error}")
@@ -71,9 +74,10 @@ class BLEPeripheral:
             reply_handler=self.application_registered,
             error_handler=self.application_error
         )
+        logger.debug("Registering GATT application")
 
     def application_registered(self):
-        logger.info("GATT application registered")
+        logger.debug("GATT application registered")
 
     def application_error(self, error):
         logger.error(f"Failed to register applicaiton: {error}")

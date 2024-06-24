@@ -1,18 +1,9 @@
 #!/user/bin/env python3
-
-from PyBLEz import create_ble_peripheral
 import logging
+from PyBLEz import create_ble_peripheral, enable_logs, disable_logs
 
-# set up logging
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)
-logHandler = logging.StreamHandler()
-fileLogHandler = logging.FileHandler("logs.log")
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(message)s")
-logHandler.setFormatter(formatter)
-fileLogHandler.setFormatter(formatter)
-logger.addHandler(fileLogHandler)
-logger.addHandler(logHandler)
+# Enable debug logs
+enable_logs()
 
 def main():
     # create a BLE peripheral instance
