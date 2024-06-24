@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='PyBLEz',
-    version='0.2.0',
+    version='0.2.1',
     description='A Python library for creating BLE peripherals using BlueZ and D-Bus',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
