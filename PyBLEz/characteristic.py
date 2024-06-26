@@ -52,23 +52,33 @@ class Characteristic(dbus.service.Object):
         else:
             logger.debug(f"Write request received for characteristic with UUID {self.uuid} with value {value}")  
             self.value = value
+        if self.notifying:
+            self.send_notification()
 
     @dbus.service.method("org.bluez.GattCharacteristic1")
     def StartNotify(self):
         if self.notifying:
             return
         self.notifying = True
+        logger.info("StartNotify called")
         self.PropertiesChanged("org.bluez.GattCharacteristic1", {"Notifying": self.notifying}, [])
 
     @dbus.service.method("org.bluez.GattCharacteristic1")
-    def StopNotifying(self):
+    def StopNotify(self):
         if not self.notifying:
             return
         self.notifying = False
+        logger.info("StopNotify called")
         self.PropertiesChanged("org.bluez.GattCharacteristic1", {"Notifying": self.notifying}, [])
 
-    def send_notification(self, value):
-        if not self.notifying:
-            return
-        self.value = value  
-        self.PropertiesChanged("org.bluez.GattCharacteristic1", {"Value": self.value}, [])
+    @dbus.service.signal("org.freedesktop.DBus.Properties", signature="sa{sv}as")
+    def PropertiesChanged(self, interface, changed, invalidated):
+        pass
+
+    def send_notification(self):
+        try:
+            logger.info("Trying to send a notification")
+            self.PropertiesChanged("org.bluez.GattCharacteristic1", {"Value": dbus.ByteArray(self.value)}, [])
+            logger.info(f"Notification sent with value: {self.value}")
+        except Exception as e:
+            logger.error(f"Failed to send notification: {e}")
