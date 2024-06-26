@@ -29,7 +29,7 @@ def main():
     service = ble.add_service("12345678-1234-5678-1234-56789abcdef0")
 
     # Add a characteristic to the service
-    char = service.add_characteristic("12345678-1234-5678-1234-56789abcdef1", ["read", "write"], bytearray("Hello", "utf-8"))
+    char = service.add_characteristic("12345678-1234-5678-1234-56789abcdef1", ["read", "write", "notify"], bytearray("Hello", "utf-8"))
 
     # Defind the read_value function
     def read_value(options):
