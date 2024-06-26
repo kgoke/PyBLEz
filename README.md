@@ -1,6 +1,8 @@
-![PyPI - Downloads](https://img.shields.io/pypi/dm/pyblez)
-
-
+![Total Downloads](https://pepy.tech/badge/pyblez)
+![Monthly Downloads](https://img.shields.io/pypi/dm/pyblez)
+![PyPI Version](https://img.shields.io/pypi/v/pyblez)
+![License](https://img.shields.io/pypi/l/pyblez)
+![GitHub issues](https://img.shields.io/github/issues/kgoke/PyBLEz.svg)
 
 
 # PyBLEz
