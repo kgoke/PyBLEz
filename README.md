@@ -51,8 +51,8 @@ def main():
     # Register the GATT application
     ble.register_application()
 
-    # Start advertising
-    ble.start_advertising("HelloBLE", [service.uuid])
+    # Start advertising (10 seconds)
+    ble.start_advertising("HelloBLE", [service.uuid], duration=10)
 
     # Run the main loop
     ble.run()
