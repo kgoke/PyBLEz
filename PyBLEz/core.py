@@ -1,6 +1,7 @@
 import dbus
 import dbus.mainloop.glib
 from gi.repository import GLib
+import threading
 
 from .service import Service
 from .advertisement import Advertisement
@@ -19,6 +20,8 @@ class BLEPeripheral:
             raise Exception("Bluetooth adapter not found")
         self.services = []
         self.mainloop = GLib.MainLoop()
+        self.advertisement_timer = None
+        self.advertisement = None
         logger.debug("BLEPeripheral instance created")
 
     def find_adapter(self):
@@ -37,16 +40,26 @@ class BLEPeripheral:
         logger.debug(f"Added service with UUID {uuid}")
         return service
 
-    def start_advertising(self, local_name, service_uuids):
+    def start_advertising(self, local_name, service_uuids, duration=None):
         ad_manager = dbus.Interface(self.bus.get_object("org.bluez", self.adapter), "org.bluez.LEAdvertisingManager1")
-        advertisement = Advertisement(self.bus, 0, "peripheral", local_name, service_uuids)
+        self.advertisement = Advertisement(self.bus, 0, "peripheral", local_name, service_uuids)
         ad_manager.RegisterAdvertisement(
-            advertisement.get_path(),
+            self.advertisement.get_path(),
             {},
             reply_handler=self.advertisement_registered,
             error_handler=self.advertisement_error
         )
         logger.debug(f"Started advertising as {local_name} with services {service_uuids}")
+
+        if duration:
+            self.advertisement_timer = threading.Timer(duration, self.stop_advertising)
+            self.advertisement_timer.start()
+
+    def stop_advertising(self):
+        ad_manager = dbus.Interface(self.bus.get_object("org.bluez", self.adapter), "org.bluez.LEAdvertisingManager1")
+        ad_path = self.advertisement.get_path()
+        ad_manager.UnregisterAdvertisement(ad_path)
+        logger.debug("Stopped advertising")
 
     def advertisement_registered(self):
         logger.debug("Advertisement registered")
