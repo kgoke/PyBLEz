@@ -1,6 +1,4 @@
-![Total Downloads](https://pepy.tech/badge/pyblez)
-[![Downloads](https://static.pepy.tech/badge/pyblez/month)](https://pepy.tech/project/pyblez)
-[![Downloads](https://static.pepy.tech/badge/pyblez/week)](https://pepy.tech/project/pyblez)
+[![Downloads](https://static.pepy.tech/badge/pyblez)](https://pepy.tech/project/pyblez)
 ![PyPI Version](https://img.shields.io/pypi/v/pyblez)
 ![License](https://img.shields.io/pypi/l/pyblez)
 ![GitHub issues](https://img.shields.io/github/issues/kgoke/PyBLEz.svg)
